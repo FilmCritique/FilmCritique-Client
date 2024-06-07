@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect, useParams } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Line from "../common/Line";
 import styled from "styled-components";
 import uploadposter from "../../assets/icon/poster.png";
@@ -10,7 +11,6 @@ const WriteReviewSection = ({
   onReviewDataChange,
   onSubmit,
   formRef,
-  reviewId,
 }) => {
   const [previewSource, setPreviewSource] = useState(uploadposter);
   const { reviewid } = useParams();
@@ -37,29 +37,28 @@ const WriteReviewSection = ({
   const handleImageClick = () => {
     fileInputRef.current.click();
   };
+
   const handleRatingChange = (rating) => {
     onReviewDataChange({
       ...reviewData,
       rating,
     });
   };
+
   // 리뷰 아이디가 변경될 때마다 해당 리뷰의 데이터를 불러옴
   useEffect(() => {
-    if (reviewId) {
+    if (reviewid) {
       const fetchReviewData = async () => {
         try {
           const res = await instance.get(`/critique/review/${reviewid}/`);
-          setReview(res.data);
+          onReviewDataChange(res.data); // 데이터를 받아서 바로 상태를 업데이트
         } catch (err) {
           alert(err);
         }
       };
       fetchReviewData();
-
-      const fetchedReviewData = fetchReviewDataFromBackend(reviewId);
-      onReviewDataChange(fetchedReviewData);
     }
-  }, [reviewId, onReviewDataChange]);
+  }, [reviewid, onReviewDataChange]);
   return (
     <WriteReviewContainer>
       <Line />

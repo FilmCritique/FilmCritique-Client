@@ -28,6 +28,12 @@ const WriteReviewSection = ({
   const handleImgUpload = (e) => {
     if (!e.target.files) return;
     const uploadFile = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.readAsDataURL(uploadFile);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
+    };
     onReviewDataChange({
       ...reviewData,
       poster: uploadFile,
@@ -97,7 +103,7 @@ const WriteReviewSection = ({
           <ShortInput
             name="dateWatched"
             onChange={onInputHandler}
-            placeholder=""
+            placeholder="yyyy-mm-dd"
             value={reviewData.dateWatched}
           />
         </div>

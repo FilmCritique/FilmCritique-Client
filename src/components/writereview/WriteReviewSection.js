@@ -62,7 +62,7 @@ const WriteReviewSection = ({
   return (
     <WriteReviewContainer>
       <Line />
-      <form onSubmit={onSubmit} ref={formRef}>
+      <form onSubmit={() => onSubmit(reviewData)} ref={formRef}>
         <div className="poster">
           <DisplayMd>Poster</DisplayMd>
           <PosterImg src={previewSource} onClick={handleImageClick} />

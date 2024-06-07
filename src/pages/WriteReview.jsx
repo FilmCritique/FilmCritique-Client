@@ -16,8 +16,8 @@ const WriteReview = () => {
     dateWatched: "",
   });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
+    // event.preventDefault();
     const formData = new FormData();
     formData.append("title", reviewData.title);
     formData.append("rating", reviewData.rating);

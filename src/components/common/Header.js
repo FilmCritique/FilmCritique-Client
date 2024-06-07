@@ -24,8 +24,10 @@ const Header = ({ onButtonClick }) => {
   const handleFormSubmit = () => {
     if (onButtonClick) {
       onButtonClick();
+      console.log("click");
     }
   };
+
   return (
     <>
       <StyledHeader pathname={pathname}>
@@ -37,7 +39,7 @@ const Header = ({ onButtonClick }) => {
             </ActionButton>
           </>
         )}
-        {pathname === "/writeReview" && (
+        {pathname.startsWith("/writeReview") && (
           <>
             <BackImg src={back} onClick={openQuitModal} />
             <ActionButton onClick={handleFormSubmit}>Submit</ActionButton>{" "}

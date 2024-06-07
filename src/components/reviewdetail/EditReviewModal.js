@@ -12,7 +12,6 @@ const EditReviewModal = ({ closeModal }) => {
   const { reviewid } = useParams();
   const [isPendingRequest, setIsPendingRequest] = useState(false);
 
-  //취소 클릭시 헤더에서 모달 닫기
   const handleCloseModal = () => {
     closeModal();
   };
@@ -30,11 +29,12 @@ const EditReviewModal = ({ closeModal }) => {
   };
 
   //수정하기 버튼 클릭시 실행
-  const handleEditReview = async () => {
+  const handleEditReview = async (reviewData) => {
     if (isPendingRequest) return;
 
     const headers = {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      "Content-Type": "application/json",
     };
 
     try {
@@ -46,8 +46,26 @@ const EditReviewModal = ({ closeModal }) => {
       );
 
       if (res.status === 200 && res.data.password === true) {
-        await instance.patch(`/critique/review/${reviewid}/`, {}, { headers });
-        navigate(`/writeReview/${reviewid}`);
+        const reviewDataToUpdate = {
+          title: reviewData.title,
+          rating: reviewData.rating,
+          review: reviewData.review,
+          username: reviewData.username,
+          password: reviewData.password,
+          date_watched: reviewData.dateWatched,
+        };
+
+        const response = await instance.patch(
+          `/critique/review/${reviewid}/`,
+          reviewDataToUpdate,
+          { headers }
+        );
+
+        if (response.status === 200) {
+          navigate(`/writeReview/${reviewid}`);
+        } else {
+          setErrorMessage("리뷰를 수정하는데 실패했습니다.");
+        }
       } else {
         setErrorMessage("비밀번호가 틀렸습니다.");
       }

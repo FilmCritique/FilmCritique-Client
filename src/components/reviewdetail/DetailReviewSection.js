@@ -87,7 +87,7 @@ const Dim = styled.div`
 
 const PosterImg = styled.img`
   display: flex;
-  width: auto;
+  width: 376px;
   top: 0;
   height: 500px;
   align-self: stretch;
